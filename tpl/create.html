@@ -14,7 +14,10 @@
 <main>
   {{ if .Ok }}
   <section>
-    <input value="{{ .Host }}/t/{{ .ImgHash }}" size="500" disabled>
+    <p>
+      <label>URL:</label>
+      <input value="{{ .Host }}/t/{{ .ImgHash }}" name="url" id="url" readonly>
+    </p>
   </section>
   <section>
     <img src="{{ .Host }}/i/{{ .ImgHash }}" alt="Thiep">
@@ -28,10 +31,8 @@
   <section>
     <form>
       <select id="tpl" name="tpl">
-        <option value="th" {{ if eq .Tpl
-        "th" }}selected="selected"{{ end }}>Nhà trai</option>
-        <option value="vq" {{ if eq .Tpl
-        "vq" }}selected="selected"{{ end }}>Nhà gái</option>
+        <option value="th" {{ if eq .Tpl "th" }}selected="selected"{{ end }}>Nhà trai</option>
+        <option value="vq" {{ if eq .Tpl "vq" }}selected="selected"{{ end }}>Nhà gái</option>
       </select>
       <label for="text">Tên người nhận:</label>
       <input type="text" id="text" name="text" size="28" placeholder="Bạn..." value="{{ .Text }}"/>

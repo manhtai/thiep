@@ -129,7 +129,7 @@ func main() {
 	host := os.Getenv("HOST")
 
 	router.HandleFunc("GET /tao", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFS(tpl, "tpl/index.html")
+		tmpl, err := template.ParseFS(tpl, "tpl/create.html")
 		if err != nil {
 			log.Print(err)
 			return
