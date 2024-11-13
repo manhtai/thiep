@@ -1,4 +1,4 @@
-module invitee
+module thiep
 
 go 1.22.5
 
