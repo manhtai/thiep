@@ -128,6 +128,10 @@ func main() {
 	router := http.NewServeMux()
 	host := os.Getenv("HOST")
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "https://huyentrang.manhtai.com", http.StatusTemporaryRedirect)
+	})
+
+	router.HandleFunc("GET /tao", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFS(tpl, "tpl/index.html")
 		if err != nil {
 			log.Print(err)

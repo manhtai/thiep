@@ -609,11 +609,20 @@
   </style>
 </head>
 <body>
-<header>
-  <h2>Thiệp cưới</h2>
-  <a href="https://huyentrang.manhtai.com" target="_blank">Mạnh Tài &amp; Huyền Trang</a>
-</header>
 <main>
+  {{ if .Ok }}
+  <section>
+    <input value="{{ .Host }}/t/{{ .ImgHash }}" size="500" disabled>
+  </section>
+  <section>
+    <img src="{{ .Host }}/t/{{ .ImgHash }}" alt="Thiep">
+  </section>
+  <hr>
+  {{ end }}
+  <header>
+    <h2>Thiệp cưới</h2>
+    <a href="https://huyentrang.manhtai.com" target="_blank">Mạnh Tài &amp; Huyền Trang</a>
+  </header>
   <section>
     <form>
       <select id="tpl" name="tpl">
@@ -625,15 +634,6 @@
       <button type="submit" id="submit">Gửi</button>
     </form>
   </section>
-  {{ if .Ok }}
-  <hr>
-  <section>
-    <input value="{{ .Host }}/t/{{ .ImgHash }}" size="200" disabled>
-  </section>
-  <section>
-    <img src="{{ .Host }}/t/{{ .ImgHash }}" alt="Thiep">
-  </section>
-  {{ end }}
 </main>
 </body>
 </html>
