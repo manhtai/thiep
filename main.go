@@ -83,7 +83,7 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 	draw.Draw(rgba, img.Bounds(), img, image.Point{}, draw.Src)
 
 	// Load custom font
-	fontSize := 32.0
+	fontSize := 37.0
 	face, err := loadFont(fontPath, fontSize)
 	if err != nil {
 		return nil, err

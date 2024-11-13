@@ -18,17 +18,10 @@
 </head>
 <body>
 <main>
-  {{ if .Ok }}
   <section>
-    <img src="{{ .Host }}/i/{{ .ImgHash }}.jpg" alt="Thiệp mời {{ .Text }}">
-  </section>
-  {{ end }}
-  <section>
-    <footer>
-      <small>
-        👉 &nbsp;<a href="https://huyentrang.manhtai.com">Mạnh Tài ❤️ Huyền Trang</a>
-      </small>
-    </footer>
+    <a href="https://huyentrang.manhtai.com">
+      <img src="{{ .Host }}/i/{{ .ImgHash }}.jpg" alt="Thiệp mời {{ .Text }}">
+    </a>
   </section>
 </main>
 </body>
