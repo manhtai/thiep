@@ -56,7 +56,7 @@ func measureTextWidth(text string, face font.Face) int {
 }
 
 func addLabel(img *image.RGBA, x, y int, label string, face font.Face) {
-	col := color.RGBA{R: 255, A: 255} // Red color for the text
+	col := color.RGBA{A: 255, B: 102}
 	d := font.Drawer{
 		Dst:  img,
 		Src:  image.NewUniform(col),
@@ -83,7 +83,7 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 	draw.Draw(rgba, img.Bounds(), img, image.Point{}, draw.Src)
 
 	// Load custom font
-	fontSize := 40.0
+	fontSize := 53.0
 	face, err := loadFont(fontPath, fontSize)
 	if err != nil {
 		return nil, err
