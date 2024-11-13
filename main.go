@@ -126,6 +126,7 @@ type RenderData struct {
 
 func main() {
 	router := http.NewServeMux()
+	host := os.Getenv("HOST")
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFS(tpl, "tpl/index.html")
 		if err != nil {
@@ -142,7 +143,7 @@ func main() {
 			Text:    text,
 			Tpl:     tp,
 			Ok:      ok,
-			Host:    "https://thiep.fly.dev",
+			Host:    host,
 		})
 	})
 
@@ -172,5 +173,12 @@ func main() {
 		serveImage(tp, text, w, r)
 	})
 
-	http.ListenAndServe(":8080", router)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), router)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
