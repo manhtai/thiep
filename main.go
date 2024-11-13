@@ -183,7 +183,7 @@ func main() {
 	})
 
 	router.HandleFunc("GET /i/{code}", func(w http.ResponseWriter, r *http.Request) {
-		code := r.PathValue("code")
+		code := strings.TrimSuffix(r.PathValue("code"), ".jpg")
 		data, err := base64.URLEncoding.DecodeString(code)
 		if err != nil {
 			log.Print(err)

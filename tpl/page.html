@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ .Host }}/t/{{ .ImgHash }}">
   <meta property="og:title" content="Trân trọng kính mời {{ .Text }} tới chung vui cùng Mạnh Tài &amp; Huyền Trang!">
-  <meta property="og:image" content="{{ .Host }}/i/{{ .ImgHash }}">
+  <meta property="og:image" content="{{ .Host }}/i/{{ .ImgHash }}.jpg">
 
   <link rel="stylesheet" href="/mvp.css">
 </head>
@@ -20,7 +20,7 @@
 <main>
   {{ if .Ok }}
   <section>
-    <img src="{{ .Host }}/i/{{ .ImgHash }}" alt="Thiệp mời {{ .Text }}">
+    <img src="{{ .Host }}/i/{{ .ImgHash }}.jpg" alt="Thiệp mời {{ .Text }}">
   </section>
   {{ end }}
   <section>
