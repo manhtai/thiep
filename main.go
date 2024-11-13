@@ -127,9 +127,6 @@ type RenderData struct {
 func main() {
 	router := http.NewServeMux()
 	host := os.Getenv("HOST")
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://huyentrang.manhtai.com", http.StatusTemporaryRedirect)
-	})
 
 	router.HandleFunc("GET /tao", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFS(tpl, "tpl/index.html")
@@ -152,6 +149,40 @@ func main() {
 	})
 
 	router.HandleFunc("GET /t/{code}", func(w http.ResponseWriter, r *http.Request) {
+		tmpl, err := template.ParseFS(tpl, "tpl/page.html")
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		code := r.PathValue("code")
+		data, err := base64.URLEncoding.DecodeString(code)
+		if err != nil {
+			log.Print(err)
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+			return
+		}
+
+		paths := strings.Split(string(data), "/")
+		if len(paths) < 2 {
+			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+			return
+		}
+
+		tp, text := paths[0], paths[1]
+		hash := base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf(`%s/%s`, tp, text)))
+		ok := slices.Contains([]string{"th", "vq"}, tp) && text != ""
+
+		tmpl.Execute(w, RenderData{
+			ImgHash: hash,
+			Text:    text,
+			Tpl:     tp,
+			Ok:      ok,
+			Host:    host,
+		})
+	})
+
+	router.HandleFunc("GET /i/{code}", func(w http.ResponseWriter, r *http.Request) {
 		code := r.PathValue("code")
 		data, err := base64.URLEncoding.DecodeString(code)
 		if err != nil {
@@ -175,6 +206,15 @@ func main() {
 		tp := r.PathValue("tp")
 		text := r.PathValue("text")
 		serveImage(tp, text, w, r)
+	})
+
+	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "https://huyentrang.manhtai.com", http.StatusTemporaryRedirect)
+	})
+
+	router.HandleFunc("GET /{file}", func(w http.ResponseWriter, r *http.Request) {
+		file := r.PathValue("file")
+		http.ServeFileFS(w, r, tpl, fmt.Sprintf("tpl/%s", file))
 	})
 
 	port := os.Getenv("PORT")

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/favicon.ico"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Trân trọng kính mời {{ .Text }} tới chung vui!</title>
+  <meta name="description" content="Trân trọng kính mời {{ .Text }} tới chung vui cùng Mạnh Tài &amp; Huyền Trang!">
+  <meta name="keywords" content="Thiệp cưới">
+  <link rel="stylesheet" href="/mvp.css">
+</head>
+<body>
+<main>
+  {{ if .Ok }}
+  <section>
+    <img src="{{ .Host }}/i/{{ .ImgHash }}" alt="Thiệp mời {{ .Text }}">
+  </section>
+  {{ end }}
+</main>
+</body>
+</html>
