@@ -137,7 +137,13 @@ func main() {
 		text := r.URL.Query().Get("text")
 		hash := base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf(`%s/%s`, tp, text)))
 		ok := slices.Contains([]string{"th", "vq"}, tp) && text != ""
-		tmpl.Execute(w, RenderData{ImgHash: hash, Text: text, Tpl: tp, Ok: ok})
+		tmpl.Execute(w, RenderData{
+			ImgHash: hash,
+			Text:    text,
+			Tpl:     tp,
+			Ok:      ok,
+			Host:    "https://thiep.fly.dev",
+		})
 	})
 
 	router.HandleFunc("GET /t/{code}", func(w http.ResponseWriter, r *http.Request) {
@@ -166,5 +172,5 @@ func main() {
 		serveImage(tp, text, w, r)
 	})
 
-	http.ListenAndServe(":3001", router)
+	http.ListenAndServe(":8080", router)
 }
