@@ -15,8 +15,8 @@
   {{ if .Ok }}
   <section>
     <p>
-      <label>URL:</label>
-      <input value="{{ .Host }}/t/{{ .ImgHash }}" name="url" id="url" readonly>
+      <a onclick="copyText('url')">Copy URL:</a>
+      <code id="url">{{ .Host }}/t/{{ .ImgHash }}</code>
     </p>
   </section>
   <section>
@@ -40,5 +40,18 @@
     </form>
   </section>
 </main>
+<script>
+  function copyText(el) {
+    var data = [new ClipboardItem({ "text/plain": new Blob([document.getElementById(el).innerText], { type: "text/plain" }) })];
+    navigator.clipboard.write(data).then(
+      function () {
+        alert("Copied to clipboard");
+      },
+      function () {
+        console.error("Unable to write to clipboard. :-(");
+      }
+    );
+  }
+</script>
 </body>
 </html>
