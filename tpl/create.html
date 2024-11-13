@@ -31,8 +31,8 @@
   <section>
     <form>
       <select id="tpl" name="tpl">
-        <option value="th" {{ if eq .Tpl "th" }}selected="selected"{{ end }}>Nhà trai</option>
-        <option value="vq" {{ if eq .Tpl "vq" }}selected="selected"{{ end }}>Nhà gái</option>
+        <option value="trai" {{ if eq .Tpl "trai" }}selected="selected"{{ end }}>Nhà trai</option>
+        <option value="gai" {{ if eq .Tpl "gai" }}selected="selected"{{ end }}>Nhà gái</option>
       </select>
       <label for="text">Tên người nhận:</label>
       <input type="text" id="text" name="text" size="28" placeholder="Bạn..." value="{{ .Text }}"/>

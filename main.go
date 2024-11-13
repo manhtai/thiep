@@ -83,7 +83,7 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 	draw.Draw(rgba, img.Bounds(), img, image.Point{}, draw.Src)
 
 	// Load custom font
-	fontSize := 37.0
+	fontSize := 40.0
 	face, err := loadFont(fontPath, fontSize)
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 	defer face.Close() // Remember to close the font face when done
 
 	// Specify the position to insert the text
-	x, y := 1560-measureTextWidth(text, face)/2, 407
+	x, y := 520-measureTextWidth(text, face)/2, 407
 
 	// Add the text to the image
 	addLabel(rgba, x, y, text, face)
@@ -101,6 +101,8 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 
 //go:embed tpl/*
 var tpl embed.FS
+
+var tplList = []string{"trai", "gai"}
 
 func serveImage(tp, text string, w http.ResponseWriter, r *http.Request) {
 	img, err := generateInvite(fmt.Sprintf("tpl/%s.jpg", tp), "tpl/font.ttf", text)
@@ -138,7 +140,7 @@ func main() {
 		tp := r.URL.Query().Get("tpl")
 		text := r.URL.Query().Get("text")
 		hash := base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf(`%s/%s`, tp, text)))
-		ok := slices.Contains([]string{"th", "vq"}, tp) && text != ""
+		ok := slices.Contains(tplList, tp) && text != ""
 		tmpl.Execute(w, RenderData{
 			ImgHash: hash,
 			Text:    text,
@@ -171,7 +173,7 @@ func main() {
 
 		tp, text := paths[0], paths[1]
 		hash := base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf(`%s/%s`, tp, text)))
-		ok := slices.Contains([]string{"th", "vq"}, tp) && text != ""
+		ok := slices.Contains(tplList, tp) && text != ""
 
 		tmpl.Execute(w, RenderData{
 			ImgHash: hash,

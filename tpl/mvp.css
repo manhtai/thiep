@@ -574,3 +574,20 @@ blockquote footer {
   background-color: var(--color-scrollbar);
   border-radius: 10px;
 }
+
+/* Custom */
+.thiep {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+
+.thiep img {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .thiep {
+    flex-direction: column;
+  }
+}
