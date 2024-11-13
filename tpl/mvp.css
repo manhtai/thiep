@@ -589,5 +589,6 @@ blockquote footer {
 @media (max-width: 768px) {
   .thiep {
     flex-direction: column;
+    gap: 1rem;
   }
 }
