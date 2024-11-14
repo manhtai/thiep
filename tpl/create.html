@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Thiệp cưới</title>
-  <meta name="description" content="I would rather share one lifetime with you than face all the ages of this world alone.">
+  <meta name="description"
+        content="I would rather share one lifetime with you than face all the ages of this world alone.">
   <meta name="keywords" content="Thiệp cưới">
   <link rel="stylesheet" href="/mvp.css">
 </head>
@@ -16,7 +17,7 @@
   <section>
     <p>
       <a onclick="copyText('url')">Copy URL:</a>
-      <code id="url">{{ .Host }}/t/{{ .ImgHash }}</code>
+      <code id="url">{{ .Host }}/{{ .ImgHash }}</code>
     </p>
   </section>
   <section>
@@ -25,14 +26,17 @@
   <hr>
   {{ end }}
   <header>
-    <h2>Thiệp cưới</h2>
-    <a href="https://huyentrang.manhtai.com" target="_blank">Mạnh Tài &amp; Huyền Trang</a>
+    <h3>Tạo thiệp cưới
+      <a href="https://huyentrang.manhtai.com" target="_blank">Mạnh Tài &amp; Huyền Trang</a>
+    </h3>
   </header>
   <section>
     <form>
       <select id="tpl" name="tpl">
-        <option value="trai" {{ if eq .Tpl "trai" }}selected="selected"{{ end }}>Nhà trai</option>
-        <option value="gai" {{ if eq .Tpl "gai" }}selected="selected"{{ end }}>Nhà gái</option>
+        <option value="trai" {{ if eq .Tpl
+        "trai" }}selected="selected"{{ end }}>Nhà trai</option>
+        <option value="gai" {{ if eq .Tpl
+        "gai" }}selected="selected"{{ end }}>Nhà gái</option>
       </select>
       <label for="text">Tên người nhận:</label>
       <input type="text" id="text" name="text" size="28" placeholder="Bạn..." value="{{ .Text }}"/>
@@ -42,7 +46,7 @@
 </main>
 <script>
   function copyText(el) {
-    var data = [new ClipboardItem({ "text/plain": new Blob([document.getElementById(el).innerText], { type: "text/plain" }) })];
+    var data = [new ClipboardItem({"text/plain": new Blob([document.getElementById(el).innerText], {type: "text/plain"})})];
     navigator.clipboard.write(data).then(
       function () {
         alert("Copied to clipboard");

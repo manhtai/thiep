@@ -102,7 +102,14 @@ func generateInvite(templatePath, fontPath, text string) (*image.RGBA, error) {
 //go:embed tpl/*
 var tpl embed.FS
 
-var tplList = []string{"trai", "gai"}
+var tplList = []string{"trai", "gai", "t", "g"}
+
+func fullTemplate(t string) string {
+	if strings.HasPrefix(t, "g") {
+		return "gai"
+	}
+	return "trai"
+}
 
 func serveImage(tp, text string, w http.ResponseWriter, r *http.Request) {
 	img, err := generateInvite(fmt.Sprintf("tpl/%s.jpg", tp), "tpl/font.ttf", text)
@@ -150,38 +157,39 @@ func main() {
 		})
 	})
 
-	router.HandleFunc("GET /t/{code}", func(w http.ResponseWriter, r *http.Request) {
+	var pageHandler = func(w http.ResponseWriter, r *http.Request) error {
 		tmpl, err := template.ParseFS(tpl, "tpl/page.html")
 		if err != nil {
-			log.Print(err)
-			return
+			return err
 		}
 
 		code := r.PathValue("code")
 		data, err := base64.URLEncoding.DecodeString(code)
 		if err != nil {
-			log.Print(err)
-			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-			return
+			return err
 		}
 
 		paths := strings.Split(string(data), "/")
 		if len(paths) < 2 {
-			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-			return
+			return err
 		}
 
-		tp, text := paths[0], paths[1]
+		tp, text := fullTemplate(paths[0]), paths[1]
 		hash := base64.URLEncoding.EncodeToString([]byte(fmt.Sprintf(`%s/%s`, tp, text)))
 		ok := slices.Contains(tplList, tp) && text != ""
 
-		tmpl.Execute(w, RenderData{
+		return tmpl.Execute(w, RenderData{
 			ImgHash: hash,
 			Text:    text,
 			Tpl:     tp,
 			Ok:      ok,
 			Host:    host,
 		})
+	}
+
+	router.HandleFunc("GET /t/{code}", func(w http.ResponseWriter, r *http.Request) {
+		err := pageHandler(w, r)
+		log.Print(err)
 	})
 
 	router.HandleFunc("GET /i/{code}", func(w http.ResponseWriter, r *http.Request) {
@@ -199,14 +207,7 @@ func main() {
 			return
 		}
 
-		tp, text := paths[0], paths[1]
-		log.Print("tp", tp, "text", text)
-		serveImage(tp, text, w, r)
-	})
-
-	router.HandleFunc("GET /to/{tp}/{text}", func(w http.ResponseWriter, r *http.Request) {
-		tp := r.PathValue("tp")
-		text := r.PathValue("text")
+		tp, text := fullTemplate(paths[0]), paths[1]
 		serveImage(tp, text, w, r)
 	})
 
@@ -214,9 +215,12 @@ func main() {
 		http.Redirect(w, r, "https://huyentrang.manhtai.com", http.StatusTemporaryRedirect)
 	})
 
-	router.HandleFunc("GET /{file}", func(w http.ResponseWriter, r *http.Request) {
-		file := r.PathValue("file")
-		http.ServeFileFS(w, r, tpl, fmt.Sprintf("tpl/%s", file))
+	router.HandleFunc("GET /{code}", func(w http.ResponseWriter, r *http.Request) {
+		err := pageHandler(w, r)
+		if err != nil {
+			file := r.PathValue("code")
+			http.ServeFileFS(w, r, tpl, fmt.Sprintf("tpl/%s", file))
+		}
 	})
 
 	port := os.Getenv("PORT")
