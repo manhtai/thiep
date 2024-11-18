@@ -583,12 +583,16 @@ blockquote footer {
 }
 
 .thiep img {
-  width: 100%;
+  width: 50%;
 }
 
 @media (max-width: 768px) {
   .thiep {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .thiep img {
+    width: 100%;
   }
 }
